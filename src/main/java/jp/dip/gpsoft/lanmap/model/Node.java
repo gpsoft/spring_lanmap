@@ -1,22 +1,35 @@
 package jp.dip.gpsoft.lanmap.model;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Node {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "nodes")
+public class Node {
+	@Id
 	private Long id;
 	private String name;
+	@Column(name = "node_type_id")
 	private Long nodeTypeId;
 	private String description;
+	@Column(name = "product_name")
 	private String productName;
+	@Column(name = "product_code")
 	private String productCode;
 	private String ipaddr;
 	private LocalDate acquired;
 	private boolean deleted;
+	private Timestamp created;
+	private Timestamp modified;
 
 	public String getAcquiredStr() {
-		if ( acquired == null ) {
+		if (acquired == null) {
 			return "";
 		}
 		return acquired.format(DateTimeFormatter.ofPattern("yyyy年MM月"));
@@ -92,6 +105,22 @@ public class Node {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	public Timestamp getModified() {
+		return modified;
+	}
+
+	public void setModified(Timestamp modified) {
+		this.modified = modified;
 	}
 
 }
