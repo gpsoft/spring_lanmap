@@ -1,58 +1,63 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset='utf-8' />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <div class="container">
-      <nav class="navbar navbar-default" role"navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
-          </div>
-          <div>
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">ノード</a></li>
-              <li><a href="../users" th:href="@{/users}">ユーザ</a></li>
-            </ul>
-          </div>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
         </div>
-      </nav>
-      <h2>ノード一覧</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>名前</th>
-            <th>種別</th>
-            <th>機種名</th>
-            <th>IPアドレス</th>
-            <th>取得日</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody th:remove="all-but-first">
-          <tr th:each="n: ${nodes}">
-            <td th:text="${n.name}"><a href="edit/1">aventador</a></td>
-            <td th:text="${n.nodeTypeId}">Desktop</td>
-            <td th:text="${n.productName}">自作</td>
-            <td th:text="${n.ipaddr}">192.168.24.117</td>
-            <td th:text="${n.acquired}">2015年7月</td>
-            <td><a class="btn btn-xs btn-danger" href="delete/1">削除</a></td>
-          </tr>
-          <tr>
-            <td><a href="edit/2">miura</a></td>
-            <td>Desktop</td>
-            <td>LIVA</td>
-            <td>192.168.24.118</td>
-            <td>2015年2月</td>
-            <td><a class="btn btn-xs btn-danger" href="delete/2">削除</a></td>
-          </tr>
-        </tbody>
-      </table>
-      <a class="btn btn-primary" href="create">新規</a>
-    </div>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  </body>
+        <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#" th:href="@{/nodes}">ノード</a></li>
+            <li><a href="../users" th:href="@{/users}">ユーザ</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <h2>ノード一覧</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>種別</th>
+          <th>機種名</th>
+          <th>IPアドレス</th>
+          <th>取得日</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody th:remove="all-but-first">
+        <tr th:each="n: ${nodes}">
+          <td><a href="edit/1"
+            th:href="@{/nodes/edit/{id}(id=${n.id})}"
+            th:text="${n.name}">>aventador</a></td>
+          <td th:text="${n.nodeTypeId}">Desktop</td>
+          <td th:text="${n.productName}">自作</td>
+          <td th:text="${n.ipaddr}">192.168.24.117</td>
+          <td th:text="${n.acquiredStr}">2015年7月</td>
+          <td><a class="btn btn-xs btn-danger" href="delete/1"
+            th:href="@{/nodes/delete/{id}(id=${n.id})}">削除</a></td>
+        </tr>
+        <tr>
+          <td><a href="edit/2">miura</a></td>
+          <td>Desktop</td>
+          <td>LIVA</td>
+          <td>192.168.24.118</td>
+          <td>2015年2月</td>
+          <td><a class="btn btn-xs btn-danger" href="delete/2">削除</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="btn btn-primary" href="create" th:href="@{/nodes/create}">新規</a>
+  </div>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
 </html>

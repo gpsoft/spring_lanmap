@@ -1,6 +1,7 @@
 package jp.dip.gpsoft.lanmap.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Node {
 
@@ -13,6 +14,13 @@ public class Node {
 	private String ipaddr;
 	private LocalDate acquired;
 	private boolean deleted;
+
+	public String getAcquiredStr() {
+		if ( acquired == null ) {
+			return "";
+		}
+		return acquired.format(DateTimeFormatter.ofPattern("yyyy年MM月"));
+	}
 
 	public Long getId() {
 		return id;
