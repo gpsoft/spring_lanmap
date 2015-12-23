@@ -39,6 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.defaultSuccessUrl("/", /* alwaysUse */false)
 				// POSTデータの名前。
 				.usernameParameter("name").passwordParameter("password");
+		// 特定のページに対してhttpsを強制したい場合の設定。
+		// Tomcatの設定も必要なので、開発中は無効にしておく。
+//		http.requiresChannel().antMatchers("/login").requiresSecure();
 	}
 
 	@Override
