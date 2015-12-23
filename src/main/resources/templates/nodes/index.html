@@ -38,7 +38,7 @@
           <td><a href="edit/1"
             th:href="@{/nodes/edit/{id}(id=${n.id})}"
             th:text="${n.name}">>aventador</a></td>
-          <td th:text="${n.nodeTypeId}">Desktop</td>
+          <td th:text="${n.nodeType.name}">Desktop</td>
           <td th:text="${n.productName}">自作</td>
           <td th:text="${n.ipaddr}">192.168.24.117</td>
           <td th:text="${n.acquiredStr}">2015年7月</td>

@@ -6,17 +6,20 @@ import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "nodes")
 public class Node {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	@Column(name = "node_type_id")
-	private Long nodeTypeId;
 	private String description;
 	@Column(name = "product_name")
 	private String productName;
@@ -27,6 +30,18 @@ public class Node {
 	private boolean deleted;
 	private Timestamp created;
 	private Timestamp modified;
+
+	@ManyToOne
+	@JoinColumn(name="node_type_id")
+	private NodeType nodeType;
+
+	public NodeType getNodeType() {
+		return nodeType;
+	}
+
+	public void setNodeType(NodeType nodeType) {
+		this.nodeType = nodeType;
+	}
 
 	public String getAcquiredStr() {
 		if (acquired == null) {
@@ -49,14 +64,6 @@ public class Node {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Long getNodeTypeId() {
-		return nodeTypeId;
-	}
-
-	public void setNodeTypeId(Long nodeTypeId) {
-		this.nodeTypeId = nodeTypeId;
 	}
 
 	public String getDescription() {
