@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li><a href="../nodes" th:href="@{/nodes}">ノード</a></li>
+            <li class="active"><a href="#" th:href="@{/users}">ユーザ</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <h2>ユーザ</h2>
+    <form role="form" method="post" th:action="@{/users/save}">
+      <div class="form-group">
+        <label for="name">ユーザ名</label><input type="text"
+          class="form-control" id="name" name="name" />
+      </div>
+      <div class="form-group">
+        <label for="password">パスワード</label><input type="password"
+          class="form-control" id="password" name="password" />
+      </div>
+      <button type="submit" class="btn btn-default">保存</button>
+    </form>
+  </div>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
