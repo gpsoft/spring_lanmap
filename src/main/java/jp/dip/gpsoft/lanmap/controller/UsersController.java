@@ -5,18 +5,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jp.dip.gpsoft.lanmap.service.NodeService;
+import jp.dip.gpsoft.lanmap.service.UserService;
 
 @Controller
-public class NodesController extends BaseController {
+public class UsersController extends BaseController {
 	@Autowired
-	private NodeService nodeService;
+	private UserService userService;
 
-	@RequestMapping("/nodes")
+	@RequestMapping("/users")
 	public String index(Model model) {
 
-		model.addAttribute("nodes", nodeService.findAll());
-		return "nodes/index";
+		model.addAttribute("users", userService.findAll());
+		return "users/index";
 	}
 
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li><a href="../nodes" th:href="@{/nodes}">ノード</a></li>
+            <li class="active"><a href="#" th:href="@{/users}">ユーザ</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <h2>ユーザ一覧</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>管理権限</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody th:remove="all-but-first">
+        <tr th:each="u: ${users}">
+          <td><a href="edit/1"
+            th:href="@{/users/edit/{id}(id=${u.id})}"
+            th:text="${u.name}">maru</a></td>
+          <td th:text="${u.admin} ? 'あり' : ''">あり</td>
+          <td><a class="btn btn-xs btn-danger" href="delete/1"
+            th:href="@{/users/delete/{id}(id=${u.id})}">削除</a></td>
+        </tr>
+        <tr>
+          <td><a href="edit/2">hoge</a></td>
+          <td></td>
+          <td><a class="btn btn-xs btn-danger" href="delete/2">削除</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="btn btn-primary" href="create" th:href="@{/users/create}">新規</a>
+  </div>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
