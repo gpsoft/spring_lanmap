@@ -26,6 +26,10 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public User findOneByName(String name) {
+		return userRepository.findByName(name);
+	}
+
 	public void save(User user, String password) {
 		user.setPassword(passwordEncoder.encode(password));
 		Timestamp now = new Timestamp(System.currentTimeMillis());
