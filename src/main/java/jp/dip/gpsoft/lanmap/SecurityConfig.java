@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -41,7 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("name").passwordParameter("password");
 		// 特定のページに対してhttpsを強制したい場合の設定。
 		// Tomcatの設定も必要なので、開発中は無効にしておく。
-//		http.requiresChannel().antMatchers("/login").requiresSecure();
+		// http.requiresChannel().antMatchers("/login").requiresSecure();
+		http.logout()
+				// ログアウトURL。
+				// CSRF対策の観点から、POSTのみ許可したいときはlogoutUrl()を使い、
+				// GETでログアウトしたいならlogoutRequestMatcher()を使う。
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+				// ログアウト後のリダイレクト先。
+				.logoutSuccessUrl("/login");
 	}
 
 	@Override
