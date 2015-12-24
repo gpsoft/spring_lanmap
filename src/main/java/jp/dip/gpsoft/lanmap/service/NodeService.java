@@ -19,4 +19,8 @@ public class NodeService {
 	public List<Node> findAll() {
 		return nodeRepository.findAll();
 	}
+
+	public List<Node> findAllAlive() {
+		return nodeRepository.findAllAlive();
+	}
 }

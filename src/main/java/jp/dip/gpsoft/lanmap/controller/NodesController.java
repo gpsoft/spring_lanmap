@@ -15,7 +15,7 @@ public class NodesController extends BaseController {
 	@RequestMapping("/nodes")
 	public String index(Model model) {
 
-		model.addAttribute("nodes", nodeService.findAll());
+		model.addAttribute("nodes", nodeService.findAllAlive());
 		return "nodes/index";
 	}
 
