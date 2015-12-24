@@ -1,9 +1,11 @@
 package jp.dip.gpsoft.lanmap.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 // Spring Securityが認証(authentication)や認可(authorization)を制御するのに必要な
@@ -20,11 +22,12 @@ public class CurrentUser implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// 権限レベルをSpring Securityに教える。
-		String auth = "USER";
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		if (user.isAdmin()) {
-			auth = "ADMIN";
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
-		return AuthorityUtils.createAuthorityList(auth);
+		return authorities;
 	}
 
 	@Override

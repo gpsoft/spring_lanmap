@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="org.thymeleaf.extras.springsecurity4">
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation"
+      th:fragment="header">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li><a href="../nodes/index.html" th:href="@{/nodes}">ノード</a></li>
+            <li><a href="../users/index.html" th:href="@{/users}">ユーザ</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="navbar-text"
+              th:text="${#httpServletRequest.userPrincipal?.name}">hoge</li>
+            <li sec:authorize="!isAuthenticated()"><a
+              href="../auth/login.html" th:href="@{/login}">ログイン</a></li>
+            <li sec:authorize="isAuthenticated()"><a href="#"
+              th:href="@{/logout}">ログアウト</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    ヘッダー
+  </div>
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>

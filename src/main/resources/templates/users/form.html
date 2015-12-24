@@ -8,19 +8,21 @@
 </head>
 <body>
   <div class="container">
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
+    <div th:replace="elements/header::header">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#" th:href="@{/}">Lanmap</a>
+          </div>
+          <div>
+            <ul class="nav navbar-nav">
+              <li><a href="../nodes" th:href="@{/nodes}">ノード</a></li>
+              <li class="active"><a href="#" th:href="@{/users}">ユーザ</a></li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <ul class="nav navbar-nav">
-            <li><a href="../nodes" th:href="@{/nodes}">ノード</a></li>
-            <li class="active"><a href="#" th:href="@{/users}">ユーザ</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
     <h2>ユーザ</h2>
     <form role="form" method="post" th:action="@{/users/save}">
       <div class="form-group">
