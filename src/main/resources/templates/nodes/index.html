@@ -44,7 +44,9 @@
           <td th:text="${n.productName}">自作</td>
           <td th:text="${n.ipaddr}">192.168.24.117</td>
           <td th:text="${n.acquiredStr}">2015年7月</td>
-          <td><a class="btn btn-xs btn-danger" href="delete/1"
+          <td><a class="btn btn-xs btn-primary" href="edit/1"
+            th:href="@{/nodes/edit/{id}(id=${n.id})}">編集</a><a
+            class="btn btn-xs btn-danger" href="delete/1"
             th:href="@{/nodes/delete/{id}(id=${n.id})}">削除</a></td>
         </tr>
         <tr>

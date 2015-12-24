@@ -8,8 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import jp.dip.gpsoft.lanmap.form.UserForm;
+
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +21,28 @@ public class User {
 	private boolean admin;
 	private Timestamp created;
 	private Timestamp modified;
+
+	public User() {
+	}
+
+	public User(UserForm form) {
+		if (form.withId()) {
+			id = form.getId();
+		}
+		name = form.getName();
+		if (form.withPassword()) {
+			password = form.getPassword();
+		}
+		admin = form.isAdmin();
+	}
+	
+	public void patch(UserForm form) {
+		name = form.getName();
+		if (form.withPassword()) {
+			password = form.getPassword();
+		}
+		admin = form.isAdmin();
+	}
 
 	public Long getId() {
 		return id;

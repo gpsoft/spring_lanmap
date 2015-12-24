@@ -26,12 +26,24 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public User findOneById(Long id) {
+		return userRepository.findOne(id);
+	}
+
 	public User findOneByName(String name) {
 		return userRepository.findByName(name);
 	}
 
-	public void save(User user, String password) {
-		user.setPassword(passwordEncoder.encode(password));
+	/**
+	 * Userを保存。idがnullならINSERT。
+	 * 
+	 * @param user
+	 * @param withRawPassword
+	 */
+	public void save(User user, boolean withRawPassword) {
+		if (withRawPassword) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+		}
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 		if (user.getCreated() == null) {
 			user.setCreated(now);
