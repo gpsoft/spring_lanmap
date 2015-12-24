@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				// トップページとログイン画面は誰でも開ける。
 				.antMatchers("/", "/login").permitAll()
+				// ユーザ編集できるのは管理者のみ。
+				.antMatchers("/users/edit/**", "/users/create/**", "/users/delete/**").hasRole("ADMIN")
 				// それ以外の画面は、ログイン済みなら誰でも開ける。
 				.anyRequest().authenticated();
 		http.formLogin()
