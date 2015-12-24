@@ -19,6 +19,14 @@ public class CurrentUser implements UserDetails {
 		this.user = user;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public boolean isAdmin() {
+		return user.isAdmin();
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// 権限レベルをSpring Securityに教える。

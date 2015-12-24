@@ -1,6 +1,10 @@
 package jp.dip.gpsoft.lanmap.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.dip.gpsoft.lanmap.form.UserForm;
+import jp.dip.gpsoft.lanmap.model.CurrentUser;
 import jp.dip.gpsoft.lanmap.model.User;
 import jp.dip.gpsoft.lanmap.service.UserService;
 
@@ -18,9 +23,16 @@ public class UsersController extends BaseController {
 	private UserService userService;
 
 	@RequestMapping("/users")
-	public String index(Model model) {
+	public String index(@AuthenticationPrincipal CurrentUser curUser, Model model) {
 
-		model.addAttribute("users", userService.findAll());
+		List<User> list = null;
+		if (curUser.isAdmin()) {
+			list = userService.findAll();
+		} else {
+			list = new ArrayList<User>();
+			list.add(curUser.getUser());
+		}
+		model.addAttribute("users", list);
 		return "users/index";
 	}
 
@@ -38,7 +50,6 @@ public class UsersController extends BaseController {
 
 	@RequestMapping(value = "/users/save", method = RequestMethod.POST)
 	public String save(@ModelAttribute UserForm form, Model model) {
-		logger.info(form.toString());
 		if (!form.withId()) { // new entry?
 			User user = new User(form);
 			userService.save(user, true);
