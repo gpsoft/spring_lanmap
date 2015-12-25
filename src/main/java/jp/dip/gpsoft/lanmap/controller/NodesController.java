@@ -18,5 +18,4 @@ public class NodesController extends BaseController {
 		model.addAttribute("nodes", nodeService.findAllAlive());
 		return "nodes/index";
 	}
-
 }

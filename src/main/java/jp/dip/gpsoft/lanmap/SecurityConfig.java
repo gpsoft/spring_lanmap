@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
 				// ログアウト後のリダイレクト先。
 				.logoutSuccessUrl("/login");
+		http.exceptionHandling().accessDeniedPage("/error");
 	}
 
 	@Override

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <h2>エラーですね</h2>
+    <p th:if="${ex} != null" th:text="${ex.class}">class</p>
+    <p th:if="${ex} != null" th:text="${ex.message}">message</p>
+</body>
+</html>
