@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,11 +47,20 @@ public class UsersController extends BaseController {
 	public String edit(@PathVariable("id") Long id, @ModelAttribute UserForm form) {
 		User user = userService.findOneById(id);
 		form.setupForEdit(user);
+		// @ModelAttributeを付けているので、formは自動的にmodelへaddAttributeされる。
+		// attribute名は"userForm"となる。
 		return "users/edit";
 	}
 
 	@RequestMapping(value = "/users/save", method = RequestMethod.POST)
-	public String save(@ModelAttribute UserForm form, Model model) {
+	public String save(@Validated @ModelAttribute UserForm form, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			// 特別なことをしなくても、フォームへの入力内容は保持される。
+			// (ただしパスワード欄はクリアされる)
+			// 明示的にクリアしたい場合は、空っぽのUserFormオブジェクトをmodelへaddAttributeすればよい。
+			return "users/edit";
+		}
+
 		if (!form.withId()) { // new entry?
 			User user = new User(form);
 			userService.save(user, true);

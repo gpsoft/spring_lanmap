@@ -1,9 +1,12 @@
 package jp.dip.gpsoft.lanmap.form;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import jp.dip.gpsoft.lanmap.model.User;
 
 public class UserForm {
 	private Long id = null;
+	@NotBlank
 	private String name = "";
 	private String password = "";
 	private String passwordRepeated = "";
