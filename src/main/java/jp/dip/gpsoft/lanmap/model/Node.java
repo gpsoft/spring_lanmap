@@ -1,10 +1,10 @@
 package jp.dip.gpsoft.lanmap.model;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "nodes")
 public class Node {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String description;
@@ -28,11 +28,11 @@ public class Node {
 	private String ipaddr;
 	private LocalDate acquired;
 	private boolean deleted;
-	private Timestamp created;
-	private Timestamp modified;
+	@Embedded
+	private Stamp stamp = new Stamp();
 
 	@ManyToOne
-	@JoinColumn(name="node_type_id")
+	@JoinColumn(name = "node_type_id")
 	private NodeType nodeType;
 
 	public NodeType getNodeType() {
@@ -114,20 +114,12 @@ public class Node {
 		this.deleted = deleted;
 	}
 
-	public Timestamp getCreated() {
-		return created;
+	public Stamp getStamp() {
+		return stamp;
 	}
 
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
+	public void setStamp(Stamp stamp) {
+		this.stamp = stamp;
 	}
 
 }

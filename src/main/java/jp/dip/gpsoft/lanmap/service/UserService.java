@@ -19,6 +19,9 @@ public class UserService {
 	private UserRepository userRepository;
 
 	@Autowired
+	private StampService stampService;
+
+	@Autowired
 	PasswordEncoder passwordEncoder;
 	// SecurityConfigの中で@Beanメソッドを定義してる。
 
@@ -45,10 +48,7 @@ public class UserService {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		Timestamp now = new Timestamp(System.currentTimeMillis());
-		if (user.getCreated() == null) {
-			user.setCreated(now);
-		}
-		user.setModified(now);
+		stampService.stamp(user.getStamp(), now);
 		userRepository.saveAndFlush(user);
 	}
 }

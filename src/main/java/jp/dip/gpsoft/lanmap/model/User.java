@@ -1,7 +1,6 @@
 package jp.dip.gpsoft.lanmap.model;
 
-import java.sql.Timestamp;
-
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +18,8 @@ public class User {
 	private String name;
 	private String password;
 	private boolean admin;
-	private Timestamp created;
-	private Timestamp modified;
+	@Embedded
+	private Stamp stamp = new Stamp();
 
 	public User() {
 	}
@@ -35,7 +34,7 @@ public class User {
 		}
 		admin = form.isAdmin();
 	}
-	
+
 	public void patch(UserForm form) {
 		name = form.getName();
 		if (form.withPassword()) {
@@ -76,20 +75,12 @@ public class User {
 		this.admin = admin;
 	}
 
-	public Timestamp getCreated() {
-		return created;
+	public Stamp getStamp() {
+		return stamp;
 	}
 
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	public Timestamp getModified() {
-		return modified;
-	}
-
-	public void setModified(Timestamp modified) {
-		this.modified = modified;
+	public void setStamp(Stamp stamp) {
+		this.stamp = stamp;
 	}
 
 }
