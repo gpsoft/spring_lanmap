@@ -52,8 +52,29 @@ public class UserService {
 		userRepository.saveAndFlush(user);
 	}
 
-    @Transactional(readOnly = true)
-	public boolean isUniqueName(String name) {
-        return userRepository.countByName(name) == 0;
+	/**
+	 * ユーザ名が、自分以外のIDで使われてないか?
+	 * 
+	 * @param id
+	 *            自分のID。新規ユーザならnull。
+	 * @param name
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public boolean isUniqueName(Long id, String name) {
+		int num = userRepository.countByName(name);
+		if (num == 0) {
+			return true;
+		}
+		if (id == null) { // new record?
+			return false;
+		}
+		if (num > 1) {
+			return false;
+		}
+		// ひとりだけ使っている。
+		// それが自分じゃないならアウト。
+		User theOne = userRepository.findByName(name);
+		return id.equals(theOne.getId());
 	}
 }

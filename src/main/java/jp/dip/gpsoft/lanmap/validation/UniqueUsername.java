@@ -9,8 +9,12 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/**
+ * クラスへ適用する、バリデーション用のアノテーション。UserForm専用。ユーザ名が一意かどうかをチェックする。
+ * 本来なら、フィールドへ適用するアノテーションにしたかったが、IDフィールドも参照したいのでクラス用にした。
+ */
 @Documented
-@Target({ ElementType.FIELD })
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 public @interface UniqueUsername {
