@@ -14,7 +14,7 @@ import javax.validation.Payload;
  * 本来なら、フィールドへ適用するアノテーションにしたかったが、IDフィールドも参照したいのでクラス用にした。
  */
 @Documented
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 public @interface UniqueUsername {

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class LanmapApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(LanmapApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(LanmapApplication.class, args);
+	}
 }

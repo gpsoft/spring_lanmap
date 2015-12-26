@@ -28,7 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// トップページとログイン画面は誰でも開ける。
 				.antMatchers("/", "/login").permitAll()
 				// ユーザ編集できるのは管理者のみ。
-				.antMatchers("/users/edit/**", "/users/create/**", "/users/delete/**").hasRole("ADMIN")
+				.antMatchers("/users/edit/**", "/users/create/**",
+						"/users/delete/**")
+				.hasRole("ADMIN")
 				// それ以外の画面は、ログイン済みなら誰でも開ける。
 				.anyRequest().authenticated();
 		http.formLogin()
@@ -49,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// ログアウトURL。
 				// CSRF対策の観点から、POSTのみ許可したいときはlogoutUrl()を使い、
 				// GETでログアウトしたいならlogoutRequestMatcher()を使う。
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+				.logoutRequestMatcher(
+						new AntPathRequestMatcher("/logout", "GET"))
 				// ログアウト後のリダイレクト先。
 				.logoutSuccessUrl("/login");
 		http.exceptionHandling().accessDeniedPage("/error");

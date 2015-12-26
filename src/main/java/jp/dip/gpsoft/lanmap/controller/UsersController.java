@@ -25,7 +25,8 @@ public class UsersController extends BaseController {
 	private UserService userService;
 
 	@RequestMapping("/users")
-	public String index(@AuthenticationPrincipal CurrentUser curUser, Model model) {
+	public String index(@AuthenticationPrincipal CurrentUser curUser,
+			Model model) {
 
 		List<User> list = null;
 		if (curUser.isAdmin()) {
@@ -44,7 +45,8 @@ public class UsersController extends BaseController {
 	}
 
 	@RequestMapping("/users/edit/{id}")
-	public String edit(@PathVariable("id") Long id, @ModelAttribute UserForm form) {
+	public String edit(@PathVariable("id") Long id,
+			@ModelAttribute UserForm form) {
 		User user = userService.findOneById(id);
 		form.setupForEdit(user);
 		// @ModelAttributeを付けているので、formは自動的にmodelへaddAttributeされる。
@@ -53,7 +55,8 @@ public class UsersController extends BaseController {
 	}
 
 	@RequestMapping(value = "/users/save", method = RequestMethod.POST)
-	public String save(@Validated @ModelAttribute UserForm form, BindingResult result, Model model) {
+	public String save(@Validated @ModelAttribute UserForm form,
+			BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			// 特別なことをしなくても、フォームへの入力内容は保持される。
 			// (ただしパスワード欄はクリアされる)

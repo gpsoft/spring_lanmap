@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class DoubleCheckPasswordValidator implements ConstraintValidator<DoubleCheckPassword, Object> {
+public class DoubleCheckPasswordValidator
+		implements
+			ConstraintValidator<DoubleCheckPassword, Object> {
 
 	private String field;
 	private String fieldRepeated;
@@ -37,7 +39,8 @@ public class DoubleCheckPasswordValidator implements ConstraintValidator<DoubleC
 			return true;
 		}
 		ctx.disableDefaultConstraintViolation();
-		ctx.buildConstraintViolationWithTemplate(message).addPropertyNode(fieldRepeated).addConstraintViolation();
+		ctx.buildConstraintViolationWithTemplate(message)
+				.addPropertyNode(fieldRepeated).addConstraintViolation();
 		return false;
 	}
 

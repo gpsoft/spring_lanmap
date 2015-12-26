@@ -10,7 +10,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Documented
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = DoubleCheckPasswordValidator.class)
 public @interface DoubleCheckPassword {
@@ -19,7 +19,7 @@ public @interface DoubleCheckPassword {
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
-	
+
 	String field(); // フィールド名。
 	String fieldRepeated(); // 確認フィールド名。
 }

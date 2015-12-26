@@ -14,14 +14,14 @@ import javax.persistence.Table;
 public class NodeType {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private int seq;
 
-	@OneToMany(mappedBy="nodeType")
+	@OneToMany(mappedBy = "nodeType")
 	private List<Node> nodes;
-	
+
 	public Long getId() {
 		return id;
 	}

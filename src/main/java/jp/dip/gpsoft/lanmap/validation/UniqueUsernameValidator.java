@@ -11,7 +11,9 @@ import jp.dip.gpsoft.lanmap.service.UserService;
 import jp.dip.gpsoft.lanmap.utils.Utils;
 
 @Component
-public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, UserForm> {
+public class UniqueUsernameValidator
+		implements
+			ConstraintValidator<UniqueUsername, UserForm> {
 
 	private String message;
 
@@ -32,7 +34,8 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 		// initialize()の中でmessageを退避する必要もない。
 		// 一方、クラスへ適用するバリデータの場合は、ちょっと手間がかかる。
 		ctx.disableDefaultConstraintViolation();
-		ctx.buildConstraintViolationWithTemplate(message).addPropertyNode("name").addConstraintViolation();
+		ctx.buildConstraintViolationWithTemplate(message)
+				.addPropertyNode("name").addConstraintViolation();
 		return false;
 	}
 

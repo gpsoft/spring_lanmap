@@ -31,8 +31,9 @@ public class UserForm {
 	}
 
 	public String toString() {
-		return String.format("UserForm: id=%s, name=%s, pw=%s, pw2=%s, admin=%s", id, name, password, passwordRepeated,
-				admin ? "YES" : "NO");
+		return String.format(
+				"UserForm: id=%s, name=%s, pw=%s, pw2=%s, admin=%s", id, name,
+				password, passwordRepeated, admin ? "YES" : "NO");
 	}
 
 	public Long getId() {

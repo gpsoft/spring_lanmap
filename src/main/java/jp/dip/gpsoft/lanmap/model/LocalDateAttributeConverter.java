@@ -6,8 +6,10 @@ import java.time.LocalDate;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-@Converter(autoApply=true)
-public class LocalDateAttributeConverter implements AttributeConverter<LocalDate, Timestamp> {
+@Converter(autoApply = true)
+public class LocalDateAttributeConverter
+		implements
+			AttributeConverter<LocalDate, Timestamp> {
 
 	@Override
 	public Timestamp convertToDatabaseColumn(LocalDate ld) {
