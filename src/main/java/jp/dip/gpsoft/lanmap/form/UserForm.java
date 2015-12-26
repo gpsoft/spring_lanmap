@@ -3,9 +3,11 @@ package jp.dip.gpsoft.lanmap.form;
 import org.hibernate.validator.constraints.NotBlank;
 
 import jp.dip.gpsoft.lanmap.model.User;
+import jp.dip.gpsoft.lanmap.validation.DoubleCheckPassword;
 import jp.dip.gpsoft.lanmap.validation.UniqueUsername;
 
 @UniqueUsername
+@DoubleCheckPassword(field = "password", fieldRepeated = "passwordRepeated")
 public class UserForm {
 	private Long id = null;
 	@NotBlank
