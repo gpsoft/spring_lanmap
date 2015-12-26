@@ -51,4 +51,9 @@ public class UserService {
 		stampService.stamp(user.getStamp(), now);
 		userRepository.saveAndFlush(user);
 	}
+
+    @Transactional(readOnly = true)
+	public boolean isUniqueName(String name) {
+        return userRepository.countByName(name) == 0;
+	}
 }

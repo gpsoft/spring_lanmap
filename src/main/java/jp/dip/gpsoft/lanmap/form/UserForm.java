@@ -3,10 +3,12 @@ package jp.dip.gpsoft.lanmap.form;
 import org.hibernate.validator.constraints.NotBlank;
 
 import jp.dip.gpsoft.lanmap.model.User;
+import jp.dip.gpsoft.lanmap.validation.UniqueUsername;
 
 public class UserForm {
 	private Long id = null;
 	@NotBlank
+	@UniqueUsername
 	private String name = "";
 	private String password = "";
 	private String passwordRepeated = "";

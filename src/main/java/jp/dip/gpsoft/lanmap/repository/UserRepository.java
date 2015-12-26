@@ -8,4 +8,6 @@ import jp.dip.gpsoft.lanmap.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	public User findByName(String name);
+
+	public int countByName(String name);
 }
