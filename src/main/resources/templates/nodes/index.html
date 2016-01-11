@@ -60,11 +60,41 @@
       </tbody>
     </table>
     <a class="btn btn-primary" href="create" th:href="@{/nodes/create}">新規</a>
-    <a class="btn btn-primary" href="download" th:href="@{/nodes/download}">ダウンロード</a>
+    <a class="btn btn-primary" href="download"
+      th:href="@{/nodes/download}">ダウンロード</a> <a id="uploadBtn"
+      class="btn btn-primary" href="javascript:void(0)">アップロード</a>
+  </div>
+  <div id="uploadModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&#215;</span>
+          </button>
+          <h3 class="modal-title">アップロードファイル</h3>
+        </div>
+        <div class="modal-body">
+          <form method="post" enctype="multipart/form-data"
+            action="upload" th:action="@{/nodes/upload}">
+            <div class="form-group">
+              <input name="doc" type="file" accept="text/xml" />
+            </div>
+            <button type="submit" class="btn btn-primary">アップロード</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script>
+			$(function() {
+				$('#uploadBtn').on('click', function() {
+					$('#uploadModal').modal();
+				});
+			});
+		</script>
 </body>
 </html>
