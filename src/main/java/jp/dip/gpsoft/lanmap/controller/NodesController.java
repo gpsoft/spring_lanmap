@@ -33,4 +33,11 @@ public class NodesController extends BaseController {
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=download.xml");
 		return new FileSystemResource("pom.xml");
 	}
+
+	@RequestMapping(value="/nodes/download/hoge", produces = "application/vnd.ms-excel")
+	@ResponseBody
+	public Resource hoge(HttpServletResponse response) {
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=hoge.xls");
+		return new FileSystemResource("hoge.xls");
+	}
 }
