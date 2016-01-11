@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				// トップページとログイン画面は誰でも開ける。
-				.antMatchers("/", "/login").permitAll()
+				.antMatchers("/", "/login", "/autologin").permitAll()
 				// ユーザ編集できるのは管理者のみ。
 				.antMatchers("/users/edit/**", "/users/create/**",
 						"/users/delete/**")
