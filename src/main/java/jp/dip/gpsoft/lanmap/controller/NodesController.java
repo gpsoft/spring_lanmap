@@ -1,12 +1,20 @@
 package jp.dip.gpsoft.lanmap.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -42,12 +50,39 @@ public class NodesController extends BaseController {
 		return new FileSystemResource("pom.xml");
 	}
 
-	@RequestMapping(value = "/nodes/download/hoge", produces = "application/vnd.ms-excel")
+	@RequestMapping(value = "/nodes/download/excel", produces = "application/vnd.ms-excel")
 	@ResponseBody
-	public Resource hoge(HttpServletResponse response) {
+	public Resource export(HttpServletResponse response) {
+
+		ByteArrayOutputStream baos = exportHoge();
+		if (baos == null) {
+			throw new RuntimeException();
+		}
+
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment; filename=hoge.xls");
-		return new FileSystemResource("hoge.xls");
+				"attachment; filename=nodes.xls");
+		return new ByteArrayResource(baos.toByteArray());
+	}
+
+	private ByteArrayOutputStream exportHoge() {
+		try (POIFSFileSystem fs = new POIFSFileSystem(
+				new FileInputStream("hoge.xls"));
+				HSSFWorkbook wb = new HSSFWorkbook(fs)) {
+			HSSFSheet sh = wb.getSheetAt(0);
+			IntStream.range(0, 3).forEach(roff -> {
+				String val = sh.getRow(roff + 1).getCell(1)
+						.getStringCellValue();
+				logger.info(val);
+				sh.getRow(roff + 1).createCell(2)
+						.setCellValue(val + "(copied)");
+			});
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			wb.write(baos);
+			return baos;
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/nodes/upload", method = RequestMethod.POST)
