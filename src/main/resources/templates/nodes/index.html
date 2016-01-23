@@ -65,7 +65,8 @@
     <a class="btn btn-primary" href="download"
       th:href="@{/nodes/download/excel}">ダウンロード</a> <a id="uploadBtn"
       class="btn btn-primary" href="javascript:void(0)">アップロード</a><a
-      id="cboxBtn" class="btn btn-primary" href="javascript:void(0)">Colorbox</a>
+      id="cboxBtn" class="btn btn-primary" href="javascript:void(0)">Colorbox</a><a
+      id="dzBtn" class="btn btn-primary" href="javascript:void(0)">Dropzone</a>
   </div>
   <div id="uploadModal" class="modal">
     <div class="modal-dialog">
@@ -88,6 +89,7 @@
       </div>
     </div>
   </div>
+
   <div style="display: none">
     <div id="cboxModal">
       <h2>Modal dialog with colorbox</h2>
@@ -102,12 +104,34 @@
       </form>
     </div>
   </div>
+
+  <div style="display: none">
+    <div id="dzModal">
+      <h2>Dropzone</h2>
+      <form method="post" enctype="multipart/form-data"
+        th:action="@{/nodes/upload}" id="dzUpload">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="your name" />
+        </div>
+        <div id="dzPreviews" class="dropzone-previews"
+          style="width: 200px; height: 120px; border: dashed 3px #BBB;
+  margin-bottom: 1em;"></div>
+        <div>
+          <input type="button" value="Submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script th:src="@{/js/jquery.colorbox-min.js}"></script>
+  <script th:src="@{/js/dropzone.js}"></script>
   <script>
+			/*<![CDATA[*/
+
 			$(function() {
 				$('#uploadBtn').on('click', function() {
 					$('#uploadModal').modal();
@@ -119,7 +143,44 @@
 						closeButton : false
 					});
 				});
+
+				$('#dzBtn').on('click', function() {
+					$.colorbox({
+						inline : true,
+						href : '#dzModal',
+						closeButton : false
+					});
+				});
+				Dropzone.autoDiscover = false;
+				var dzUpload = new Dropzone(
+						'#dzUpload',
+						{
+							paramName : "doc", // name of input[type=file] element.
+
+							uploadMultiple : true,
+							maxFiles : 100,
+							parallelUploads : 100,
+							autoProcessQueue : false,
+
+							addRemoveLinks : true,
+							dictRemoveFile : '削除',
+							previewTemplate : '<div class="dz-preview dz-file-preview"> <div class="dz-details"> <div class="dz-filename"><span data-dz-name=""></span></div> <img data-dz-thumbnail="" /> </div> </div>',
+
+							previewsContainer : "#dzPreviews",
+							clickable : "#dzPreviews",
+						});
+				dzUpload.on("complete", function() {
+					if (this.getQueuedFiles().length == 0
+							&& this.getUploadingFiles().length == 0) {
+						this.removeAllFiles();
+					}
+				});
+				$('#dzModal input[type=button]').on('click', function() {
+					dzUpload.processQueue();
+					$.colorbox.close();
+				});
 			});
+			/*]]>*/
 		</script>
 </body>
 </html>

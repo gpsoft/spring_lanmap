@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jp.dip.gpsoft.lanmap.form.UploadFileForm;
 import jp.dip.gpsoft.lanmap.service.NodeService;
+import jp.dip.gpsoft.lanmap.utils.Utils;
 
 @Controller
 public class NodesController extends BaseController {
@@ -87,13 +88,14 @@ public class NodesController extends BaseController {
 
 	@RequestMapping(value = "/nodes/upload", method = RequestMethod.POST)
 	public String upload(UploadFileForm form) {
-		MultipartFile doc = form.getDoc();
-		if (doc.getOriginalFilename().length() > 0) {
-			logger.info(doc.getOriginalFilename() + ", " + doc.getSize());
+		MultipartFile[] docs = form.getDoc();
+		if (docs != null && !Utils.blank(docs[0].getOriginalFilename())) {
+			logger.info(
+					docs[0].getOriginalFilename() + ", " + docs[0].getSize());
 			try {
-				String xmlStr = new String(doc.getBytes(),
+				String xmlStr = new String(docs[0].getBytes(),
 						StandardCharsets.UTF_8);
-				logger.info(xmlStr);
+				// logger.info(xmlStr);
 			} catch (IOException e) {
 				logger.error("Nooooo!", e);
 			}
