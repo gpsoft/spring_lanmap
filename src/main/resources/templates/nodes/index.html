@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" type="text/css"
   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+  th:href="@{/css/colorbox/colorbox.css}" />
 </head>
 <body>
   <div class="container">
@@ -62,7 +64,8 @@
     <a class="btn btn-primary" href="create" th:href="@{/nodes/create}">新規</a>
     <a class="btn btn-primary" href="download"
       th:href="@{/nodes/download/excel}">ダウンロード</a> <a id="uploadBtn"
-      class="btn btn-primary" href="javascript:void(0)">アップロード</a>
+      class="btn btn-primary" href="javascript:void(0)">アップロード</a><a
+      id="cboxBtn" class="btn btn-primary" href="javascript:void(0)">Colorbox</a>
   </div>
   <div id="uploadModal" class="modal">
     <div class="modal-dialog">
@@ -85,14 +88,36 @@
       </div>
     </div>
   </div>
+  <div style="display: none">
+    <div id="cboxModal">
+      <h2>Modal dialog with colorbox</h2>
+      <p>another way to show modal.</p>
+      <form role="form">
+        <div class="form-group">
+          <input type="text" placeholder="your name" />
+        </div>
+        <div>
+          <input type="submit" value="Send" />
+        </div>
+      </form>
+    </div>
+  </div>
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script th:src="@{/js/jquery.colorbox-min.js}"></script>
   <script>
 			$(function() {
 				$('#uploadBtn').on('click', function() {
 					$('#uploadModal').modal();
+				});
+				$('#cboxBtn').on('click', function() {
+					$.colorbox({
+						inline : true,
+						href : '#cboxModal',
+						closeButton : false
+					});
 				});
 			});
 		</script>
