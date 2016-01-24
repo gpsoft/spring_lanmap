@@ -61,12 +61,16 @@
         </tr>
       </tbody>
     </table>
-    <a class="btn btn-primary" href="create" th:href="@{/nodes/create}">新規</a>
-    <a class="btn btn-primary" href="download"
-      th:href="@{/nodes/download/excel}">ダウンロード</a> <a id="uploadBtn"
-      class="btn btn-primary" href="javascript:void(0)">アップロード</a><a
-      id="cboxBtn" class="btn btn-primary" href="javascript:void(0)">Colorbox</a><a
-      id="dzBtn" class="btn btn-primary" href="javascript:void(0)">Dropzone</a>
+    <div class="btn-toolbar">
+      <a class="btn btn-primary" href="create"
+        th:href="@{/nodes/create}">新規</a> <a class="btn btn-primary"
+        href="download" th:href="@{/nodes/download/excel}">ダウンロード</a> <a
+        id="uploadBtn" class="btn btn-primary" href="javascript:void(0)">アップロード</a><a
+        id="cboxBtn" class="btn btn-primary" href="javascript:void(0)">Colorbox</a><a
+        id="dzBtnA" class="btn btn-primary" href="javascript:void(0)">Zone
+        A</a><a id="dzBtnB" class="btn btn-primary"
+        href="javascript:void(0)">Zone B</a>
+    </div>
   </div>
   <div id="uploadModal" class="modal">
     <div class="modal-dialog">
@@ -94,33 +98,42 @@
     <div id="cboxModal">
       <h2>Modal dialog with colorbox</h2>
       <p>another way to show modal.</p>
-      <form role="form">
+      <form method="post" enctype="multipart/form-data" action="upload"
+        th:action="@{/nodes/upload}">
         <div class="form-group">
-          <input type="text" placeholder="your name" />
+          <input type="text" placeholder="your name" name="name" />
         </div>
         <div>
-          <input type="submit" value="Send" />
+          <input type="button" value="Send" />
         </div>
       </form>
     </div>
   </div>
 
   <div style="display: none">
-    <div id="dzModal">
-      <h2>Dropzone</h2>
-      <form method="post" enctype="multipart/form-data"
-        th:action="@{/nodes/upload}" id="dzUpload">
-        <div class="form-group">
-          <input type="text" name="name" placeholder="your name" />
+    <!-- preview template -->
+    <div id="dzPreview">
+      <div class="dz-preview dz-file-preview">
+        <div class="dz-details">
+          <div class="dz-filename">
+            <span data-dz-name=""></span>
+          </div>
+          <img data-dz-thumbnail="" />
         </div>
-        <div id="dzPreviews" class="dropzone-previews"
-          style="width: 200px; height: 120px; border: dashed 3px #BBB;
-  margin-bottom: 1em;"></div>
-        <div>
-          <input type="button" value="Submit" />
-        </div>
-      </form>
+      </div>
     </div>
+    <!-- modal template -->
+    <!-- プレビューエリアにはdropzone-previews classを付ける -->
+    <div id="dzModal">
+      <h2>
+        Dropzone <span class="dzModalTitle"></span>
+      </h2>
+      <div class="dropzone-previews"
+        style="width: 200px; height: 120px; border: dashed 3px #BBB;
+  margin-bottom: 1em;"></div>
+    </div>
+    <div id="dzModalA"></div>
+    <div id="dzModalB"></div>
   </div>
 
   <script
@@ -136,6 +149,7 @@
 				$('#uploadBtn').on('click', function() {
 					$('#uploadModal').modal();
 				});
+
 				$('#cboxBtn').on('click', function() {
 					$.colorbox({
 						inline : true,
@@ -144,40 +158,56 @@
 					});
 				});
 
-				$('#dzBtn').on('click', function() {
-					$.colorbox({
-						inline : true,
-						href : '#dzModal',
-						closeButton : false
+				[ 'A', 'B' ].forEach(function(s) {
+					$('#dzModal').contents().clone(false).appendTo(
+							'#dzModal' + s).find('.dzModalTitle').text(s);
+					$('#dzBtn' + s).on('click', function() {
+						$.colorbox({
+							inline : true,
+							href : '#dzModal' + s,
+							closeButton : false
+						});
 					});
 				});
+
 				Dropzone.autoDiscover = false;
-				var dzUpload = new Dropzone(
-						'#dzUpload',
-						{
-							paramName : "doc", // name of input[type=file] element.
+				var dZones = {};
+				[ 'A', 'B' ].forEach(function(s) {
+					var previewSelector = '#dzModal' + s
+							+ ' .dropzone-previews';
+					dZones[s] = new Dropzone('#dzModal' + s, {
+						url : "dummy",
 
-							uploadMultiple : true,
-							maxFiles : 100,
-							parallelUploads : 100,
-							autoProcessQueue : false,
+						uploadMultiple : false,
+						autoProcessQueue : false,
 
-							addRemoveLinks : true,
-							dictRemoveFile : '削除',
-							previewTemplate : '<div class="dz-preview dz-file-preview"> <div class="dz-details"> <div class="dz-filename"><span data-dz-name=""></span></div> <img data-dz-thumbnail="" /> </div> </div>',
+						addRemoveLinks : true,
+						dictRemoveFile : '削除',
+						previewTemplate : $('#dzPreview').html(),
 
-							previewsContainer : "#dzPreviews",
-							clickable : "#dzPreviews",
-						});
-				dzUpload.on("complete", function() {
-					if (this.getQueuedFiles().length == 0
-							&& this.getUploadingFiles().length == 0) {
-						this.removeAllFiles();
-					}
+						previewsContainer : previewSelector,
+						clickable : previewSelector,
+					});
+					dZones[s].on('addedfile', function() {
+						$.colorbox.close();
+					});
 				});
-				$('#dzModal input[type=button]').on('click', function() {
-					dzUpload.processQueue();
-					$.colorbox.close();
+				$('#cboxModal input[type=button]').on('click', function() {
+					var $form = $('#cboxModal form');
+					var fd = new FormData($form[0]);
+					Object.keys(dZones).forEach(function(k) {
+						dZones[k].getAcceptedFiles().forEach(function(f) {
+							fd.append('doc', f);
+						});
+						dZones[k].removeAllFiles();
+					});
+					$.ajax({
+						url : $form.attr('action'),
+						method : 'post',
+						data : fd,
+						processData : false,
+						contentType : false
+					});
 				});
 			});
 			/*]]>*/
